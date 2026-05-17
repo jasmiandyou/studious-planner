@@ -29,7 +29,8 @@ def main():
         print("1. View Daily Routine")
         print("2. View Study Tasks")
         print("3. Add New Study Task")
-        print("4. Exit")
+        print("4. Mark Task as Done")
+        print("5. Exit")
         
         choice = input("Choose an option: ")
         
@@ -49,6 +50,25 @@ def main():
             save_tasks(tasks)
             print("Task added successfully!")
         elif choice == "4":
+            print("\n--- Mark Task as Done ---")
+            if not tasks:
+                print("No tasks to complete!")
+                continue
+            for idx, task in enumerate(tasks):
+                status = "✓" if task["done"] else " "
+                print(f"{idx + 1}. [{status}] {task['title']}")
+            
+            try:
+                task_num = int(input("\nEnter the task number to check off: ")) - 1
+                if 0 <= task_num < len(tasks):
+                    tasks[task_num]["done"] = True
+                    save_tasks(tasks)
+                    print(f"Checked off: {tasks[task_num]['title']}! Awesome job.")
+                else:
+                    print("Invalid task number.")
+            except ValueError:
+                print("Please enter a valid number.")
+        elif choice == "5":
             print("Keep working hard! Goodbye.")
             break
 
